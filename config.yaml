@@ -1,0 +1,28 @@
+src_lang: 'de'
+tgt_lang: 'en'
+
+src_files: 
+      - 'data/train.de-en.de'
+      - 'data/val.de-en.de'
+tgt_files: 
+      - 'data/train.de-en.en'
+      - 'data/val.de-en.en'
+
+src_vocab_size: 4000
+tgt_vocab_size: 4000
+
+src_normalization_rule_name: 'nmt_nfkc_cf'
+tgt_normalization_rule_name: 'nmt_nfkc_cf'
+
+src_model_type: 'bpe'
+tgt_model_type: 'bpe'
+
+src_max_length: 1024
+tgt_max_length: 1024
+
+unk_id: 0
+pad_id: 1
+bos_id: 2
+eos_id: 3
+
+batch_size: 64

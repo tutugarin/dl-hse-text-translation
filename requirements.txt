@@ -1,0 +1,6 @@
+torch==1.13.1
+torchtext==0.14.1
+sentencepiece==0.1.97
+tqdm==4.64.1
+wandb==0.13.10
+sacrebleu==2.3.1

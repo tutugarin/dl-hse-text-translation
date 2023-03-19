@@ -1,30 +1,15 @@
 import torch
-
 import dataclasses
-import yaml
+
 import typing as tp
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(init=True)
 class TranslationConfig:
 
-    src_lang: str = 'de'
-    tgt_lang: str = 'en'
+    data_dir: str = 'data/'
 
-    src_files: tp.Tuple[str, str] = ('data/train.de-en.de', 'data/val.de-en.de')
-    tgt_files: tp.Tuple[str, str] = ('data/train.de-en.en', 'data/val.de-en.en')
-
-    src_vocab_size: int = 4000
-    tgt_vocab_size: int = 4000
-
-    src_normalization_rule_name: str = 'nmt_nfkc_cf'
-    tgt_normalization_rule_name: str = 'nmt_nfkc_cf'
-
-    src_model_type: str = 'bpe'
-    tgt_model_type: str = 'bpe'
-
-    src_max_length: int = 1024
-    tgt_max_length: int = 1024
+    special_symbols: tp.List[str] = ('<unk>', '<pad>', '<bos>', '<eos>')
 
     unk_id: int = 0
     pad_id: int = 1
@@ -33,13 +18,21 @@ class TranslationConfig:
 
     batch_size: int = 64
 
-    @classmethod
-    def from_yaml(cls, raw_yaml: tp.Union[str, tp.TextIO]):
-        with open(raw_yaml, "rt", encoding="utf8") as stream:
-            data = yaml.safe_load(stream)
-        data = cls(**data)
-        return data
+    num_encoder_layers: int = 6
+    num_decoder_layers: int = 6
+    emb_size: int = 512
+    nhead: int = 8
+    dim_feedforward: int = 2048
+    dropout: float = 0.1
+
+    num_epochs: int = 15
+    lr: float = 0.00007
+
+    def __post_init__(self):
+        self.src_files: tp.List[str] = [f'{self.data_dir}train.de-en.de', f'{self.data_dir}val.de-en.de']
+        self.tgt_files: tp.List[str] = [f'{self.data_dir}train.de-en.en', f'{self.data_dir}val.de-en.en']
+        self.test_file: str = f'{self.data_dir}test1.de-en.de'
 
 
-CONFIG = TranslationConfig.from_yaml('config.yaml')
+CONFIG = TranslationConfig()
 DEVICE = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')

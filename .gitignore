@@ -4,6 +4,7 @@ data/
 *.opt
 solution.txt
 .DS_Store
+images/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
